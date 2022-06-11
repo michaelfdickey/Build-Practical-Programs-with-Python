@@ -58,7 +58,7 @@ in repl  you can install any packages you'd like
 
 install pandas package:
 
-![image-20220611123228407](C:\Users\Matus1976\AppData\Roaming\Typora\typora-user-images\image-20220611123228407.png)
+![image-20220611123228407](image-20220611123228407.png)
 
 now you can import it:
 
@@ -70,7 +70,7 @@ print("hello world")
 
 you can create another py file in your repl, and import it
 
-![image-20220611123632843](C:\Users\Matus1976\AppData\Roaming\Typora\typora-user-images\image-20220611123632843.png)
+![image-20220611123632843](image-20220611123632843.png)
 
 repl will always run the main.py file, always executing `python main.py` 
 
@@ -80,20 +80,22 @@ can create other file types, folders, and drag and drop in repl
 
 can also upload
 
-![image-20220611123833755](C:\Users\Matus1976\AppData\Roaming\Typora\typora-user-images\image-20220611123833755.png)
+![image-20220611123833755](image-20220611123833755.png)
 
 ## using Git
 
-![image-20220611124144831](C:\Users\Matus1976\AppData\Roaming\Typora\typora-user-images\image-20220611124144831.png)
+![image-20220611124144831](image-20220611124144831.png)
 
-![image-20220611124249674](C:\Users\Matus1976\AppData\Roaming\Typora\typora-user-images\image-20220611124249674.png)
+![image-20220611124249674](image-20220611124249674.png)
 
 debugging in repl
 
-![image-20220611124647640](C:\Users\Matus1976\AppData\Roaming\Typora\typora-user-images\image-20220611124647640.png)
+![image-20220611124647640](image-20220611124647640.png)
 
-![image-20220611124910410](C:\Users\Matus1976\AppData\Roaming\Typora\typora-user-images\image-20220611124910410.png)
+![image-20220611124910410](image-20220611124910410.png)
 
 step through breakpoints
 
-![image-20220611124930505](C:\Users\Matus1976\AppData\Roaming\Typora\typora-user-images\image-20220611124930505.png)
+![image-20220611124930505](image-20220611124930505.png)
+
+![image-20220611125502069](image-20220611125502069.png)
