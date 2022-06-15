@@ -1,6 +1,7 @@
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.keys import Keys
 import time
 
 service = Service('C:\\Users\\Matus1976\\Downloads\\chromedriver_win32\\chromedriver.exe')
@@ -16,24 +17,17 @@ def get_driver():
   options.add_experimental_option("excludeSwitches", ["enable-automation"])
   options.add_argument("disable-blink-features=AutomationControlled")
   options.add_argument("executable_path='/home/runner/Scrape-Simple-Text-with-Selenium'")
+  
   driver = webdriver.Chrome(service=service, options=options)
-  driver.get("https://automated.pythonanywhere.com/")
+
+  driver.get("https://automated.pythonanywhere.com/login/")
+  
   return driver
 
-def clean_text(text):
-    """ extract only the tempaerature from the text """
-    output = float(text.split(": ")[1])             # splits at the ': '
-    return output
-
 def main():
-  # first lesson, just get the temperature from the website
   driver = get_driver()
+  driver.find_element(by="id", value="id_username").send_keys("automated")
   time.sleep(2)
-  element = driver.find_element(by="xpath", value="/html/body/div[1]/div/h1[2]")
-  return clean_text(element.text)
-
-
-
-
-
+  driver.find_element(by="id", value="id_password").send_keys("automatedautomated" + Keys.RETURN)
+  
 print(main())

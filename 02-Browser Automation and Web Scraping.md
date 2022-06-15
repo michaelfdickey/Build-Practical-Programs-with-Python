@@ -478,5 +478,34 @@ def main():
 
 Next we want to click on the Home button
 
-![image-20220614190650298](images/02-Browser Automation and Web Scraping/image-20220614190650298.png)
+![image-20220614191703932](images/image-20220614191703932.png)
+
+we want to use the xpath since it has no id
+
+![image-20220614191344898](images/image-20220614191344898.png)
+
+`/html/body/nav/div/a`
+
+find that element and then click on it
+
+```
+def main():
+  driver = get_driver()
+  driver.find_element(by="id", value="id_username").send_keys("automated")
+  time.sleep(2)
+  driver.find_element(by="id", value="id_password").send_keys("automatedautomated" + Keys.RETURN)
+  driver.find_element(by="xpath", value="/html/body/nav/div/a").click()
+  print(driver.current_url)
+```
+
+works
+
+```
+https://automated.pythonanywhere.com/
+None
+```
+
+next we will extract the world temp value from the page after we have logged in
+
+
 
