@@ -6,9 +6,7 @@ from datetime import date
 from datetime import datetime
 
 
-
-service = Service(
-    'C:\\Users\\Matus1976\\Downloads\\chromedriver_win32\\chromedriver.exe')
+service = Service('C:\\Users\\Matus1976\\Downloads\\chromedriver_win32\\chromedriver.exe')
 
 
 def get_driver():
@@ -38,8 +36,7 @@ def clean_text(text):
   return output
 
 
-def get_current_temp(): 
-  driver = get_driver() 
+def get_current_temp(driver): 
   # get text with world temp
   time.sleep(3)
   element = driver.find_element(by="xpath", value="/html/body/div[1]/div/h1[2]")
@@ -47,11 +44,13 @@ def get_current_temp():
   print(" current temp is: ", current_temp)
   return current_temp
 
+
 def write_file(temp, file_name):
   print(" file_name is: ", repr(file_name))
   file = open(file_name, 'w')
   file.write(str(temp))
   file.close
+
 
 def get_filename():
   # get date
@@ -70,10 +69,16 @@ def get_filename():
   return file_name
 
 
-def main():
-  temp = get_current_temp()
+driver = get_driver()
+
+def main(driver):
+  temp = get_current_temp(driver)
   file_name = get_filename()
   write_file(temp, file_name)
 
+index = 0
 
-main()
+while index < 5:
+  main(driver)
+  time.sleep(2)
+  index += 1

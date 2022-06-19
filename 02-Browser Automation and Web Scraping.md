@@ -507,5 +507,165 @@ None
 
 next we will extract the world temp value from the page after we have logged in
 
+# 9) Exercise - Login, Click, Scrape
 
+date-time
+
+```
+>>> from datetime import date
+>>> today = date.today()
+>>> today
+datetime.date(2022, 6, 18)
+>>> print(today)
+2022-06-18
+>>> 
+KeyboardInterrupt
+>>> 
+```
+
+
+
+```
+>>> from datetime import datetime
+>>> now = datetime.now()
+>>> now
+datetime.datetime(2022, 6, 18, 2, 30, 41, 997621)
+>>> print(now)
+2022-06-18 02:30:41.997621
+>>> time_string = now.strftime("%H:%M:%S")
+>>> time_string
+'02:30:41'
+>>> print(time_string)
+02:30:41
+```
+
+# 10) scrape dynamic value and output text file
+
+```
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+from datetime import date
+from datetime import datetime 
+
+def get_driver():
+  # Set options to make browsing easier
+  print("  running get_driver")
+  options = webdriver.ChromeOptions()
+  options.add_argument("disable-infobars")
+  options.add_argument("start-maximized")
+  options.add_argument("disable-dev-shm-usage")
+  options.add_argument("no-sandbox")
+  options.add_experimental_option("excludeSwitches", ["enable-automation"])
+  options.add_argument("disable-blink-features=AutomationControlled")
+  driver = webdriver.Chrome(options=options)
+  driver.get("https://automated.pythonanywhere.com/")
+  return driver
+
+def clean_text(text):
+  """ extract only the temperature from the text """
+  print("  running clean_text")
+  output = float(text.split(": ")[1])
+  #splits it at the `: `, gets 2nd index, and converts to float
+  #print(output)
+  return output
+
+
+def get_current_temp(driver):
+  print("  running get_current_temp")
+  """
+  # login
+  driver = get_driver()
+  driver.find_element(by="id", value="id_username").send_keys("automated")
+  time.sleep(2)
+  driver.find_element(by="id", value="id_password").send_keys("automatedautomated" + Keys.RETURN)
+  time.sleep(2)
+  driver.find_element(by="xpath", value="/html/body/nav/div/a").click()
+  """
+
+  """
+  # open web page 
+  driver = get_driver()
+  """
+  
+  # scrape text
+  time.sleep(2)
+  element = driver.find_element(by="xpath", value="/html/body/div[1]/div/h1[2]")
+  current_temp = clean_text(element.text)
+  print("  ", current_temp)
+  return current_temp
+
+def write_file(current_temp,file_name):
+  print("  running write_file")
+  file = open(file_name, 'w')
+  #print(file)
+  file.write(current_temp)
+  file.close()
+  
+def date_time_name():
+  print("  running date_time_name")
+  # get date
+  today = date.today()
+  print("   date is: ", today)
+
+  # get time
+  now = datetime.now()
+  str_time = now.strftime("%H:%M:%S")
+  print("   time is: ", str_time)
+
+  # concatonate datetime 
+  file_name = str(today) + "." + str(str_time)
+  print("   filename is: ", file_name)
+
+  # return string for filename 
+  ## 2022-2-10.14-33-59.txt
+  return file_name
+  
+def main(driver):
+  print(" running main")
+  current_temp = str(get_current_temp(driver))
+  print("current temp is: ", current_temp)
+  file_name = date_time_name()
+  write_file(current_temp,file_name)
+
+
+driver = get_driver()
+
+keep_going = True
+while keep_going == True:
+  main(driver)
+  time.sleep(2)
+```
+
+error message
+
+```
+Matus1976@DESKTOP-98E2DP4 MINGW64 /d/Files - Google Drive/Files - New Merged/MFD Personal/Programming/python/Udemy/Build-Practical-Programs-with-Python (main)
+$ python ./local/10_scrape_dynamic_save.py
+ current temp is:  28.0
+today is:  2022-06-18
+str_time:  15:57:37
+file_name:  2022-06-18.15:57:37.txt
+ file_name is:  '2022-06-18.15:57:37.txt'
+Traceback (most recent call last):
+  File "./local/10_scrape_dynamic_save.py", line 79, in <module>
+    main()
+  File "./local/10_scrape_dynamic_save.py", line 76, in main
+    write_file(temp, file_name)
+  File "./local/10_scrape_dynamic_save.py", line 52, in write_file
+    file = open(file_name, 'w')
+OSError: [Errno 22] Invalid argument: '2022-06-18.15:57:37.txt'
+
+```
+
+windows doesn't like : in filenames
+
+change to
+
+```
+  # get time
+  now = datetime.now()
+  str_time = now.strftime("%H-%M-%S")
+  print("str_time: ", str_time)
+```
 
