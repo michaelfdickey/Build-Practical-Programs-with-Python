@@ -541,6 +541,8 @@ datetime.datetime(2022, 6, 18, 2, 30, 41, 997621)
 
 # 10) scrape dynamic value and output text file
 
+on replit
+
 ```
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -667,5 +669,63 @@ change to
   now = datetime.now()
   str_time = now.strftime("%H-%M-%S")
   print("str_time: ", str_time)
+```
+
+# 12) deleting all text files
+
+```
+rm *.txt
+```
+
+# 13) reviewing solution to scrape dynamic value and save as text file
+
+my solution is above
+
+notes from instructor:
+
+gets driver for home page:
+
+```
+def get_driver():
+  # Set options to make browsing easier
+  print("  running get_driver")
+  options = webdriver.ChromeOptions()
+  options.add_argument("disable-infobars")
+  options.add_argument("start-maximized")
+  options.add_argument("disable-dev-shm-usage")
+  options.add_argument("no-sandbox")
+  options.add_experimental_option("excludeSwitches", ["enable-automation"])
+  options.add_argument("disable-blink-features=AutomationControlled")
+  driver = webdriver.Chrome(options=options)
+  driver.get("https://automated.pythonanywhere.com/")
+  return driver
+```
+
+move the element into a loop:
+
+strftime - generates a useful string from the datetime object 
+
+using datetime
+
+```
+from datetime import datetime
+datetime.now()
+datetime.datetime(2022, 6, 19, 18, 17, 16, 170593)
+datetime.now().strftime("%Y")
+'2022'
+datetime.now().strftime("%Y-%M")
+'2022-17'
+datetime.now().strftime("%Y-%M-%D")
+'2022-17-06/19/22'
+datetime.now().strftime("%Y-%M-%d")
+'2022-18-19'
+
+```
+
+full string
+
+```
+datetime.now().strftime("%Y-%M-%d.%H-%M-%S")
+'2022-18-19.18-18-49'
 ```
 
