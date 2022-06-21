@@ -729,3 +729,178 @@ datetime.now().strftime("%Y-%M-%d.%H-%M-%S")
 '2022-18-19.18-18-49'
 ```
 
+# 14) access online retailer
+
+titan22.com
+
+sad.monday.funky
+
+//*[@id="shopify-section-header"]/div[1]/div/div[3]/a[2]/span/svg - nope
+
+//*[@id="shopify-section-header"]/div[1]/div/div[3]/a[2]/span/svg - 
+
+/html/body/header/div[1]/div[1]/div/div[3]/a[2]/span/svg - copy full xpath
+
+![image-20220619114352371](images/image-20220619114352371.png)
+
+//*[@id="shopify-section-header"]/div[1]/div/div[3]/a[2]/span/svg
+
+/html/body/header/div[1]/div[1]/div/div[3]/a[2]/span/svg
+
+just land right on the login page, login, then click contact us
+
+`/html/body/footer/div/section/div/div[1]/div[1]/div[1]/nav/ul/li[1]/a`
+
+code update - `$ git commit -m "14-15 solution accessing an online retailer"`
+
+# 16) Download stock data for any company for any date
+
+download historical stock data via python
+
+https://query1.finance.yahoo.com/v7/finance/download/AAPL?period1=345427200&period2=1655683200&interval=1wk&events=history&includeAdjustedClose=true
+
+![image-20220620182201324](images/image-20220620182201324.png)
+
+example url
+
+```
+https://query1.finance.yahoo.com/v7/finance/download/AAPL?period1=345427200&period2=1655683200&interval=1d&events=history&includeAdjustedClose=true
+```
+
+get started
+
+to download files with python, use the requests library
+
+```
+import requests
+
+url = "https://query1.finance.yahoo.com/v7/finance/download/AAPL?period1=345427200&period2=1655683200&interval=1d&events=history&includeAdjustedClose=true"
+
+content = requests.get(url).content     #this is a method that expects a url 
+print(content)
+```
+
+content is a byte object
+
+```
+$ python local/02-16_download_stock_data.py
+b'Forbidden'
+```
+
+it's forbidden, we need the headers
+
+yahoo finance doens't allow scraping scripts to download files
+
+you can skip this by providing headers to impersonate a browser
+
+```
+import requests
+
+url = "https://query1.finance.yahoo.com/v7/finance/download/AAPL?period1=345427200&period2=1655683200&interval=1d&events=history&includeAdjustedClose=true"
+
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36"}
+
+content = requests.get(url, headers=headers).content     #this is a method that expects a url 
+
+print(content)
+```
+
+works...
+
+```
+Matus1976@DESKTOP-98E2DP4 MINGW64 /d/Files - Google Drive/Files - New Merged/MFD Personal/Programming/python/udemy/Build-Practical-Programs-with-Python (main)
+$ python local/02-16_download_stock_data.py
+b'Date,Open,High,Low,Close,Adj Close,Volume\n1980-12-12,0.128348,0.128906,0.128348,0.128348,0.100178,469033600\n1980-12-15,0.122210,0.122210,0.121652,0.121652,0.094952,175884800\n1980-12-16,0.113281,0.113281,0.112723,0.112723,0.087983,105728000\n1980-12-17,0.115513,0.116071,0.115513,0.115513,0.090160,86441600\n1980-1
+...etc
+```
+
+but now we need to write these to a file on disk
+
+using requests.get().content grabs things as binaries, so for writing the file use `wb` instead of `w`
+
+```
+content = requests.get(url, headers=headers).content     
+with open('aapl.csv', 'wb')
+```
+
+then write the file
+
+```
+with open('aapl.csv', 'wb') as file:
+    file.write(content)
+```
+
+let's further improve the script by letting the user choose the period and the ticker symbol
+
+```
+from_date = input('Enter start from date in format (YYYY/MM/DD): ')
+to_date = input('Enter end date in YYYY/MM/DD format:' )
+```
+
+convert human date format to epoch
+
+```
+>>> from_date = '2022/1/2'
+>>> print(from_date)
+2022/1/2
+```
+
+then convert to datetime object with a specific format
+
+```
+>>> from datetime import datetime
+>>> d = datetime.strptime(from_date, '%Y/%m/%d')
+>>> d
+datetime.datetime(2022, 1, 2, 0, 0)
+```
+
+then convert `d` to epoch time with `import time`
+
+```
+>>> import time
+>>> epoch = time.mktime(d.timetuple())
+>>> epoch
+1641110400.0
+>>>
+```
+
+so in your program it will look like
+
+```
+import requests
+from datetime import datetime
+import time
+
+from_date = input('Enter start from date in format (YYYY/MM/DD): ')
+to_date = input('Enter end date in YYYY/MM/DD format:' )
+
+from_datetime = datetime.strptime(from_date, '%Y/%m/%d')
+to_datetime = datetime.strptime(to_date, '%Y/%m/%d')
+
+from_epoch = time.mktime(from_datetime.timetuple())
+to_epoch = time.mktime(to_datetime.timetuple())
+```
+
+then add these into your yahoo finance url, adding `from_epoch` and `to_epoch`:
+
+```
+url = "https://query1.finance.yahoo.com/v7/finance/download/AAPL?period1={from_epoch}&period2={to_epoch}&interval=1d&events=history&includeAdjustedClose=true"
+```
+
+run the program, you'll get
+
+```
+b'{"finance":{"result":null,"error":{"code":"Internal Server Error","description":"The template variable \'from_epoch\' has no value"}}}'
+
+```
+
+this is because our print(content) and our values our epoch is in the float format
+
+```
+from_epoch = int(time.mktime(from_datetime.timetuple()))
+to_epoch = int(time.mktime(to_datetime.timetuple()))
+
+```
+
+
+
