@@ -899,7 +899,146 @@ this is because our print(content) and our values our epoch is in the float form
 ```
 from_epoch = int(time.mktime(from_datetime.timetuple()))
 to_epoch = int(time.mktime(to_datetime.timetuple()))
+```
 
+or it needs the `f` in front of the url
+
+```
+url = f"https://query1.finance.yahoo.com/v7/finance/download/{ticker}?period1={from_epoch}&period2={to_epoch}&interval=1d&events=history&includeAdjustedClose=true"
+```
+
+`f` makes it an fstring and allows you to use the {variable} format 
+
+# 17) Scrape Real-Time currency Rate with Beautiful Soup
+
+learn how to use beautiful soup - a great webscraping library
+
+selenium is more targeted toward browser automations, logging in and out, clicking on buttons, scrape values, etc
+
+beautiful soup, if you want to just extract data you don't have to open the browser.  Selenium is kind of a hybrid between web scraping and scripting
+
+beautiful soup is just a library taht directly accesses websites. 
+
+start with x-rates.com
+
+string for conversion in x-rates currency converter
+
+https://www.x-rates.com/calculator/?from=EUR&to=INR&amount=1
+
+![image-20220627165818450](images/image-20220627165818450.png)
+
+1. install beautiful soup
+
+   ```
+   pip install beautifulsoup4
+   ```
+
+   ```
+   from bs4 import BeautifulSoup
+   ```
+
+2. example program
+
+   ```
+   from bs4 import BeautifulSoup
+   
+   def GetCurrency(input_currency, output_currency):
+       url = f"https://www.x-rates.com/calculator/?from={input_currency}&to={output_currency}&amount=1"
+       print(url)
+   
+   GetCurrency("USD", "EUR")
+   ```
+
+   produces useable URL
+
+3. now with BeautifulSoup you want to get the source code of the web page
+
+   ![image-20220627170907727](images/image-20220627170907727.png)
+
+It'll be HTML / CSS / JavaScript
+
+![image-20220627170954859](images/image-20220627170954859.png)
+
+you want to access all that code from python
+
+using `requests`
+
+```
+pip install requests
+```
+
+```
+import requests
+```
+
+you will use requests to get the contents:
+
+```
+content = requests.get(url).text
+print(content)
+# prints out HTML sourcecode
+```
+
+current program now:
+
+```
+from bs4 import BeautifulSoup
+import requests
+
+def GetCurrency(input_currency, output_currency):
+    url = f"https://www.x-rates.com/calculator/?from={input_currency}&to={output_currency}&amount=1"
+    content = requests.get(url).text
+    print(url)
+    print(content)
+
+GetCurrency("USD", "EUR")
+```
+
+out of all that source code we only want 
+
+![image-20220627171917549](images/image-20220627171917549.png)
+
+you can search for it
+
+![image-20220627171951740](images/image-20220627171951740.png)
+
+or inspect element
+
+![image-20220627172010576](images/image-20220627172010576.png)
+
+![image-20220627172037495](images/image-20220627172037495.png)
+
+![image-20220627172055042](images/image-20220627172055042.png)
+
+when need to parse that source code
+
+that's where beautiful soup is great
+
+it understands HTML structure, knowledge of elements / div tags / nested elements
+
+use the html parser to look through the conent:
+
+```
+soup = BeautifulSoup(content, 'html.parser')
+```
+
+if you print out soup here, it prints out basically the same thing. 
+
+code looks like this now:
+
+```
+from bs4 import BeautifulSoup
+import requests
+
+def GetCurrency(input_currency, output_currency):
+    url = f"https://www.x-rates.com/calculator/?from={input_currency}&to={output_currency}&amount=1"
+    content = requests.get(url).text
+    print(url)
+    #print(content)
+    soup = BeautifulSoup(content, 'html.parser')
+    print(soup)
+
+GetCurrency("USD", "EUR")
 ```
 
 
