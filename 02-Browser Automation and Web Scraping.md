@@ -1041,5 +1041,90 @@ def GetCurrency(input_currency, output_currency):
 GetCurrency("USD", "EUR")
 ```
 
+We want this
+
+![image-20220627172406521](images/image-20220627172406521.png)
+
+```
+from bs4 import BeautifulSoup
+import requests
+
+def GetCurrency(input_currency, output_currency):
+    url = f"https://www.x-rates.com/calculator/?from={input_currency}&to={output_currency}&amount=1"
+    content = requests.get(url).text
+    print(url)
+    #print(content)
+    soup = BeautifulSoup(content, 'html.parser')
+    #print(soup)
+    currency = soup.find("span", class_="ccOutputRslt").get_text()
+    print(currency)
+
+GetCurrency("USD", "EUR")
+```
+
+run that, you get
+
+```
+D:\Files - Google Drive\Files - New Merged\MFD Personal\Programming\python\Udemy\Build-Practical-Programs-with-Python\local>python 02-17_scrape-real-time-currency.py
+https://www.x-rates.com/calculator/?from=USD&to=EUR&amount=1
+0.944916 EUR
+```
+
+let's clean it up and just get that float. we want to remove the last four characters
+
+```
+from bs4 import BeautifulSoup
+import requests
+
+def GetCurrency(input_currency, output_currency):
+    url = f"https://www.x-rates.com/calculator/?from={input_currency}&to={output_currency}&amount=1"
+    content = requests.get(url).text
+    print(url)
+    #print(content)
+    soup = BeautifulSoup(content, 'html.parser')
+    #print(soup)
+    raw_currency = soup.find("span", class_="ccOutputRslt").get_text()
+    print(raw_currency)
+
+    raw_currency_length = len(raw_currency)
+    #print(raw_currency_length)
+    currency = (raw_currency[0:raw_currency_length-4])
+    #print(repr(currency))
+    currency = float(currency)
+    #print(type(currency))
+
+GetCurrency("EUR", "INR")
+```
+
+complete program
+
+```
+from bs4 import BeautifulSoup
+import requests
+
+def GetCurrency(input_currency, output_currency):
+    """ gets the current currency exchange rate and returns the rate """
+    url = f"https://www.x-rates.com/calculator/?from={input_currency}&to={output_currency}&amount=1"
+    content = requests.get(url).text
+    print(url)
+    #print(content)
+    soup = BeautifulSoup(content, 'html.parser')
+    #print(soup)
+    raw_currency = soup.find("span", class_="ccOutputRslt").get_text()
+    print(raw_currency)
+
+    raw_currency_length = len(raw_currency)
+    #print(raw_currency_length)
+    currency = (raw_currency[0:raw_currency_length-4])
+    #print(repr(currency))
+    currency = float(currency)
+    #print(type(currency))
+    rate = currency
+    return rate
+
+
+GetCurrency("EUR", "AUD")
+```
+
 
 
