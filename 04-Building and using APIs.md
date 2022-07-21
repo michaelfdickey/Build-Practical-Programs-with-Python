@@ -193,3 +193,7 @@ print(" ")
 
 ```
 
+
+
+## 26 Create your own currency rate REST API
+

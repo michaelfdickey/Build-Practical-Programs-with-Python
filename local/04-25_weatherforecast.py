@@ -55,14 +55,29 @@ for n in range(8):
     #print(n, forecast['list'][n]['weather'][0]['description'])
     todays_weather.append(forecast['list'][n]['weather'][0]['description'])
 
+forecast_hours = []
+
+for n in range(8):
+    #print(n, forecast['list'][n]['dt_txt'])
+    forecast_date_time = forecast['list'][n]['dt_txt']
+    forecast_hour = forecast_date_time[11:16]
+    #print(forecast_hour)
+    forecast_hours.append(forecast_hour)
+
+
+
 # display the weather for the day 
 print(" ")
 print("The current weather for ", (weather_content['name']), "is: ", weather_content['weather']
       [0]['description'], " and a temp of ", weather_content['main']['temp'], " degrees.")
-print(" ")
-print("todays_temps: ", todays_temps)
-print("todays_weather: ", todays_weather)
-print(" ")
+#print(" ")
+#print("hours: ", forecast_hours)
+#print("todays_temps: ", todays_temps)
+#print("todays_weather: ", todays_weather)
+
+for n in range(8):
+    print(forecast_hours[n], " ", todays_temps[n], " degF, ", todays_weather[n])
+    #print(" ")
 
 
 """
