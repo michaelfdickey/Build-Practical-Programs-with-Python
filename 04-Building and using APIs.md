@@ -365,3 +365,27 @@ app.run(host='0.0.0.0')
 
 ```
 
+
+
+and now go to `https://26-create-custom-api.matus1976.repl.co/api/v1/usd-eur
+
+and the result:
+
+![image-20220809220130833](images/image-20220809220130833.png)
+
+up next: 
+
+## 27 Official Facebook Graph API
+
+access data from profiles by using the facebook API
+
+download image through facebook API:
+
+![image-20220829214948284](images/image-20220829214948284.png)
+
+
+
+## Grammar Correction API
+
+
+
