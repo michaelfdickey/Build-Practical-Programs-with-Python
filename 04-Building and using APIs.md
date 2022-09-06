@@ -481,3 +481,108 @@ you allready know how to extract data from a dictionary.
 
 
 
+## 29. intro to python pathlib library
+
+using the pathlib library
+
+standard of python - installed by default
+
+first showed up in v 3.4 substitute of the os library
+
+both os and pathlib are useful for file and directory operations
+
+os treats filepaths as strings but pathlib use a path object type
+
+- paths used to be treated as strings
+
+first you need to think of the path:
+
+```
+p1 = 'files/abc.txt'
+with open(p1, 'r') as file:
+ print(file.read())
+```
+
+- now pathlib recognizes paths as object types
+
+```
+from pathlib import Path
+
+p1 = Path('files/abc.txt')
+print(type(p1))
+print(p1)
+```
+
+```
+$ python local/04-29_python_pathlib_library.py
+<class 'pathlib.WindowsPath'>
+files\abc.txt
+
+```
+
+benefits not visible in this example but if your code expands 
+
+it has many methods you can check methods with Dir(Path):
+
+![image-20220905182704363](images/image-20220905182704363.png)
+
+```
+# you can also write files if the file doesn't exist
+p1 = Path('new_file.txt')
+
+if not p1.exists():
+    with open(p1, 'w') as file:
+        file.write('file_contents')
+```
+
+you can print just the filename:
+
+`print(p1.name)`
+
+get filename without extension
+
+`print(p1.stem)`
+
+or just extension
+
+`print(p1.suffix)`
+
+it's much more work to do this with os.path, these are all methods of the Path class
+
+```
+from pathlib import Path
+
+# reading files:
+#p1 = Path('files/abc.txt')
+#print(type(p1))
+#print(p1)
+
+# you can also write files if the file doesn't exist
+p1 = Path('new_file.txt')
+
+if not p1.exists():
+    with open(p1, 'w') as file:
+        file.write('file_contents')
+
+#you can print just the filename:
+print(p1.name)
+
+# get filename without extension
+print(p1.stem)
+
+# or just extension
+print(p1.suffix)
+
+#it's much more work to do this with os.path, these are all methods of the Path class
+
+# let's print the filename of files in a directory
+p2 = Path('files')
+print(p2.iterdir())
+for item in p2.iterdir():
+    print(item)
+```
+
+
+
+## 30. Add prefix to all filenames in a folder
+
