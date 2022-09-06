@@ -385,7 +385,99 @@ download image through facebook API:
 
 
 
-## Grammar Correction API
+## 28 Grammar Correction API
+
+grammar checking with python
+
+using an API called language tool API
+
+this will work through a post request not a get request
+
+go to https://languagetool.org/http-api/
+
+url is `https://api.languagetool.org/v2/check
+
+```
+import requests
+url = 'https://api.languagetool.org/v2/check'
+response = requests.post(url)       #using post now, before we used get
+```
+
+but you'll need to pass parameters
+
+we can pass text, json, langage etc 
+
+![image-20220905180903281](images/image-20220905180903281.png)
+
+language and text are required
+
+we pass them as dictionary
+
+```
+import requests
+
+url = 'https://api.languagetool.org/v2/check'
+
+# create data as dictionary to pass for language check:
+data = {
+    'text':'Tis is a nixe day!',
+    'language':'auto'
+    }
+
+response = requests.post(url, data)       #using post now, before we used get
+
+print(response.text)
+```
+
+returns a block of text
+
+![image-20220905181247539](images/image-20220905181247539.png)
+
+check type
+
+```
+
+# check the type of the output
+print(type(response.text))
+
+```
+
+it's a string, so we need to convert it to a dict, we can use ``json.load()` which converts string to a dictionary
+
+```
+import json
+
+result = json.loads(response.text)
+
+print(result)
+```
+
+so now you have:
+
+```
+import requests
+import json 
+
+url = 'https://api.languagetool.org/v2/check'
+
+# create data as dictionary to pass for language check:
+data = {
+    'text':'Tis is a nixe day!',
+    'language':'auto'
+    }
+
+response = requests.post(url, data)       #using post now, before we used get
+
+print(response.text)
+
+# check the type of the output
+print(type(response.text))
+
+result = json.loads(response.text)
+print(result)
+```
+
+you allready know how to extract data from a dictionary. 
 
 
 
