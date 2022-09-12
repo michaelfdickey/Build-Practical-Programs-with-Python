@@ -586,3 +586,84 @@ for item in p2.iterdir():
 
 ## 30. Add prefix to all filenames in a folder
 
+first, determine where / in what folders these files are, what is the root directory holding the files
+
+need to run it from the right folder (not local/*.py)
+
+![image-20220911175135181](images/image-20220911175135181.png)
+
+lets start with:
+
+```
+from pathlib import Path
+
+# how do you rename files in a path 
+
+root_dir = Path('files')            # create a Path object instance with files as a string 
+file_paths = root_dir.iterdir()     # this method outputs a file generator 
+print(list(file_paths))             # prints the files in the directory
+```
+
+outputs:
+
+![image-20220911175135181](images/image-20220911175135181.png)
+
+
+
+let's list all the files:
+
+```
+from pathlib import Path
+
+# how do you rename files in a path 
+
+root_dir = Path('files')            # create a Path object instance with files as a string 
+file_paths = root_dir.iterdir()     # this method outputs a file generator 
+#print(list(file_paths))             # prints the files in the directory
+
+for path in file_paths:
+    new_filename = "new_" + path.stem + path.suffix  
+    print(new_filename)
+```
+
+result:
+
+```
+Matus1976@DESKTOP-98E2DP4 MINGW64 /d/Files - Google Drive/Files - New Merged/MFD Personal/Programming/python/Udemy/Build-Practical-Programs-with-Python/local (main)
+$ python 04_30-add-prefix.py
+new_abc.txt
+new_def.txt
+new_mark.item
+```
+
+
+
+this is just printing to the screen with the new name, they are not renamed. 
+
+you need to use class path.with_name(new_filename)
+
+```
+from pathlib import Path
+
+# how do you rename files in a path 
+
+root_dir = Path('files')            # create a Path object instance with files as a string 
+file_paths = root_dir.iterdir()     # this method outputs a file generator 
+#print(list(file_paths))             # prints the files in the directory
+
+for path in file_paths:
+    new_filename = "new_" + path.stem + path.suffix
+    new_filepath = path.with_name(new_filename)
+    print(new_filename)
+    path.rename(new_filepath)
+
+"""
+we're about to add path.rename(new_filepath) to the for loop
+so rename is a class of the path object and takes the argument (new_filepath)
+but if we do this, the files actually move up outside the file path
+instead we point to path.with_name
+"""
+```
+
+
+
