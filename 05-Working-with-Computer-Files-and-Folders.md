@@ -404,3 +404,118 @@ it joins those items and palves the - seperator between them.
 
 ## 34 - add created date to all filenames in folder
 
+how to get the date when a file was created via python and then an exercise to rename a file adding the dates when they were created. 
+
+https://replit.com/@matus1976/Add-File-Created-Date-to-All-Filenames-Exercise#main.py
+
+how to get the date when the file was created
+
+```
+from pathlib import Path
+from datetime import datetime
+
+path = Path('files/December/a.txt')
+
+# if you have a path object you can get data about that object with the path.stat() method
+
+stats = path.stat()
+
+print(stats)
+"""
+result of print(stats):
+$ python main.py
+os.stat_result(st_mode=33188, st_ino=264, st_dev=19923088, st_nlink=1, st_uid=1000, st_gid=1000, st_size=2, st_atime=1635878203, st_mtime=1635878203, st_ctime=1665005893)
+
+st_mode some info about permissions
+st_uid user identifier
+st_gid user group identifier
+st_size = file size
+
+what we want is time:
+
+st_atime - last access time stamp, seconds from jan1 1970
+st_mtime - when file was last modified
+st_ctime - when the file was created
+"""
+
+# to get that ctime:
+seconds_when_created = stats.st_ctime
+print(seconds_when_created)
+"""
+output:
+$ python main.py
+os.stat_result(st_mode=33188, st_ino=264, st_dev=19923088, st_nlink=1, st_uid=1000, st_gid=1000, st_size=2, st_atime=1635878203, st_mtime=1635878203, st_ctime=1665005893)
+1665005893.6959639
+"""
+
+# to convert epoch time to normal time in python:
+date_created = datetime.fromtimestamp(seconds_when_created)
+print(date_created)
+"""
+$ python main.py
+os.stat_result(st_mode=33188, st_ino=264, st_dev=19923088, st_nlink=1, st_uid=1000, st_gid=1000, st_size=2, st_atime=1635878203, st_mtime=1635878203, st_ctime=1665005893)
+1665005893.6959639
+2022-10-05 21:38:13.695964
+"""
+
+# date_created is not a string though, need to convert it
+date_created_str = date_created.strftime(
+    "%Y-%m-%d_%H:%M:%S")  #creates a string from time
+
+print(date_created_str)
+print(type(date_created_str))
+"""
+1665005893.6959639
+2022-10-05 21:38:13.695964
+2022-10-05_21:38:13
+<class 'str'>
+"""
+```
+
+## 35 exercise renaming all files in folder with created on date time 
+
+```
+from pathlib import Path
+from datetime import datetime
+
+# update file names with datetime created:
+
+root_dir = Path('files')  #defines the local root directory
+file_paths = root_dir.glob("**/*")
+
+for path in file_paths:
+    #print(path)
+    if path.is_file():  # only if it's a file print on it or act on it
+        print(path)
+        #print(type(path))
+        file_stats = path.stat()
+        #print(file_stats)
+
+        # get time stampe when created
+        seconds_when_created = file_stats.st_ctime
+        #print(seconds_when_created)
+
+        #convert epoch timestamp
+        date_created = datetime.fromtimestamp(seconds_when_created)
+        #print(date_created)
+
+        #format date created string
+        date_created_str = date_created.strftime(
+            "%Y-%m-%d_%H:%M:%S")  #creates a string from time
+        print(date_created_str)
+
+        #create new filename
+        new_filename = date_created_str + "-" + path.name
+        print("new filename is: ", new_filename)
+
+        #create new file path
+        new_filepath = path.with_name(new_filename)
+        print("new_filepath is: ", new_filepath)
+
+        #rename the file
+        path.rename(new_filepath)
+```
+
+![image-20221005151447852](images/image-20221005151447852.png)
+
+https://replit.com/@matus1976/Add-File-Created-Date-to-All-Filenames-Exercise#main.py
