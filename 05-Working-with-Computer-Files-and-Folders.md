@@ -337,3 +337,70 @@ and the files get renamed:
 ![image-20220921175517941](images/image-20220921175517941.png)
 
 ## 32 - Renaming Files based on a sub-sub folder
+
+fork @ArditS repl Rename Files Based on the sub-sub folders
+
+https://replit.com/@matus1976/Rename-Files-Based-on-the-sub-sub-folders-Exercise#main.py
+
+resulting code:
+
+```
+# file names should contain folder and parent / grandparent folders
+
+from pathlib import Path
+
+root_dir = Path('files')  #defines the local root directory
+
+#print(root_dir)
+#print(type(root_dir))
+#print("file_paths is: ", file_paths)
+#print("printing list(file_paths)")
+#print(list(file_paths))
+
+#file_paths = root_dir.iterdir()
+file_paths = root_dir.glob("**/*")
+
+for path in file_paths:
+    if path.is_file():  # only if it's a file print on it or act on it
+        print(path)
+        parent_folder = path.parts[-3:-1]
+        print("parent folder is: ", parent_folder)
+
+        #construct new filename
+        new_filename = parent_folder[0] + "-" + parent_folder[
+            1] + "-" + path.name
+        print("new_filename is: ", new_filename)
+
+        #construct new filepath
+        new_filepath = path.with_name(
+            new_filename)  #creating a new path object here
+        print("new_filepath is: ", new_filepath)
+
+        path.rename(new_filepath)
+
+```
+
+definitely need to select the right range of the tuple here:
+
+```
+ parent_folder = path.parts[-3:-1]
+```
+
+to get all the parent folders
+
+## 33 - instructors solution
+
+![image-20221005122931348](images/image-20221005122931348.png)
+
+you can use the join method instead
+
+```
+new_filename = "-".join(subfolders)
+```
+
+it joins those items and palves the - seperator between them. 
+
+
+
+## 34 - add created date to all filenames in folder
+
