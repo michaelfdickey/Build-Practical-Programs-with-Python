@@ -13,4 +13,4 @@ for path in file_paths:
         print(new_filename)
 
         new_filepath = path.with_name(new_filename)     # creaeting a new path object here 
-        path.rename(new_filepath)                                   # apply rename to the path object
+        path.rename(new_filepath)                       # apply rename to the path object
