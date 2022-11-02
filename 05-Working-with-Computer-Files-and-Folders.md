@@ -519,3 +519,53 @@ for path in file_paths:
 ![image-20221005151447852](images/image-20221005151447852.png)
 
 https://replit.com/@matus1976/Add-File-Created-Date-to-All-Filenames-Exercise#main.py
+
+# 36) change extension from .txt to .csv
+
+```
+from pathlib import Path
+from datetime import datetime
+
+# change file extension from .txt to .csv
+
+root_dir = Path('files_36')  # defines the local root directory
+file_paths = root_dir.glob("**/*")
+
+for file in file_paths:
+    if file.is_file():
+        #print filename
+        print(file)
+
+        #get filename without extension
+        filename_without_extension = file.stem
+        
+        #create new filename
+        new_filename = filename_without_extension + ".csv"
+        print("new filename is: ", new_filename)
+
+        #create new file path
+        new_filepath = file.with_name(new_filename)
+        print("new_filepath is: ", new_filepath)
+
+        #rename the file
+        file.rename(new_filepath)
+```
+
+# 37) change file extension solution
+
+from instructor
+
+![image-20221102115623262](images/image-20221102115623262.png)
+
+the rglob selects only those files
+
+you can use rglob("*") for all files
+
+you can use path.with_suffix(".txt") to just update the suffix
+
+rglob is alternative to glob - useful when you have subfolders 
+
+rglob is the equivalent of `**/*.csv` 
+
+# 38) Create Empty files
+
