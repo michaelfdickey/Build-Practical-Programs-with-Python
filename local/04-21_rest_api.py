@@ -64,4 +64,4 @@ for i in range(len(content['articles'])):
     print('> ', content['articles'][i]['title'])
     #print('\n') # print a new line
 
-# emails you text news service
+# emails you text news service daily for specific topics back from specific date. 
