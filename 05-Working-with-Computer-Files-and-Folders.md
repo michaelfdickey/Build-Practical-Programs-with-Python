@@ -569,3 +569,29 @@ rglob is the equivalent of `**/*.csv`
 
 # 38) Create Empty files
 
+script to create a bunch of empty files
+
+first we need to import pathlib
+
+```
+from pathlib import Path
+```
+
+and then set the root directory
+
+```
+root_dir = Path('files_38')
+```
+
+```
+from pathlib import Path 
+
+# set root directory
+root_dir = Path('files_38')                     # defines the local root directory
+
+for i in range(10,21):                          # creates 10 files with numbers from 10 - 21
+    filename = str(i) + '.txt'                  # construct a filename as a string
+    filepath = root_dir / Path(filename)        # construct a filepath as a Path object
+    filepath.touch()                            # create an empty file
+```
+
