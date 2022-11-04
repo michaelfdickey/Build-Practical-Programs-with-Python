@@ -595,3 +595,9 @@ for i in range(10,21):                          # creates 10 files with numbers 
     filepath.touch()                            # create an empty file
 ```
 
+
+
+# 39) create a zip archive from files
+
+
+
