@@ -13,7 +13,10 @@ with zipfile.ZipFile(archive_path, 'w') as zip_object:         # creates a ZipFi
                                                                # ok what do we want to do with this object? probably iterate through it
     for path in root_dir.rglob("*.txt"):                       # iterate through all the files in the root_dir
         zip_object.write(path)
+        path.unlink()                                         # delete the file after it's been added to the archive
+
+    
 
 
-
+#
 

@@ -599,5 +599,64 @@ for i in range(10,21):                          # creates 10 files with numbers 
 
 # 39) create a zip archive from files
 
+use the zipfile library to create zip files:
+
+```
+import zipfile
+```
+
+```
+from pathlib import Path
+import zipfile
+
+root_dir = Path('files_39')   
+# defines the local root directory
+
+#archive_path = Path('archive.zip')
+# defines the archive file name and creates a Path object
+# add 'root_dir /' to make it files/archives.zip
+# add 'root_dir / archive_path' to make it files/files_39/archive.zip
+
+archive_path = root_dir / Path('archive.zip')   
+# defines the archive file name and creates a Path object
+
+with zipfile.ZipFile(archive_path, 'w') as zip_object:         # creates a ZipFile object, 'w' is the mode for write. 
+                                                               # ok what do we want to do with this object? probably iterate through it
+    for path in root_dir.rglob("*.txt"):                       # iterate through all the files in the root_dir
+        zip_object.write(path)
+```
 
 
+
+# 40) extract zip files
+
+starting off with two zipped files full of either text or csv
+
+put the filesets inside of two different folder. 
+
+start with importing Path and zipfile
+
+```
+from pathlib import Path
+import zipfile
+```
+
+iterate through the objects looking for zips, using read and extract. 
+
+```
+from pathlib import Path
+import zipfile
+
+root_dir = Path('files_40')                     # defines the local root directory
+#root_dir = Path('.') # if the files are in the same working directory as the script
+
+#lets also define destination dir/path 
+destination_path = Path('destination')
+
+for path in root_dir.glob("*.zip"):                                     #rglob will go inside each of the folders, rglob is recursive glob
+    with zipfile.ZipFile(path, 'r') as zf:                              #zf is the zip file object, 'r' is the mode for read, 'w' is the mode for write
+        final_path = root_dir / destination_path / Path(path.stem)      # path.stem is the name of the file without the extension                                               
+        zf.extractall(path=final_path)                                  #this is the method that extracts the files     
+```
+
+![image-20221105113744039](images/image-20221105113744039.png)
