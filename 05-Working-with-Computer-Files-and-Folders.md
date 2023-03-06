@@ -751,3 +751,26 @@ for file in file_paths:
             print(file.absolute())
 ```
 
+# 42 - exercise searching for a file in a directory
+
+instructor solution
+
+```
+from pathlib import Path
+
+root_dir = Path('.')
+search_term = '14'
+
+for path in root_dir.rglob("*")
+	if search_term in path.stem:
+		print(path.absolute())
+```
+
+but that returns folders, so you also need if path = file
+
+![image-20230305221743621](C:\Users\matus\AppData\Roaming\Typora\typora-user-images\image-20230305221743621.png)
+
+
+
+# 43) Destroy files forever
+
