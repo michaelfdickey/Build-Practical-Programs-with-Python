@@ -6,7 +6,7 @@ from pathlib import Path
 #print(p1)
 
 # you can also write files if the file doesn't exist
-p1 = Path('new_file.txt')
+p1 = Path('new_file2.txt')
 
 if not p1.exists():
     with open(p1, 'w') as file:

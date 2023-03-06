@@ -2,6 +2,10 @@
 
 #currently only works in repl.it 
 #see here https://replit.com/@matus1976/26-create-custom-api#main.py 
+#entering the generated URL in the replit instance and adding the suggested suffix: /api/v1/usd-eur
+# example:
+# https://26-create-custom-api.matus1976.repl.co/api/v1/usd-eur
+# returns: {"input_currency":"usd","output_currency":"eur","rate":0.944476}
 
 from flask import Flask, jsonify
 
